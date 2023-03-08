@@ -3,6 +3,10 @@ import 'package:stylebusters/core/utils/constants/values_manager.dart';
 import 'package:flutter/material.dart';
 import '../../core/utils/constants/home_manager.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../../presentation/screens/home_screen.dart';
+import '../../presentation/screens/clothes_screen.dart';
+import '../../presentation/screens/logos_screen.dart';
+import '../../presentation/screens/artworks_screen.dart';
 
 
 
@@ -17,7 +21,7 @@ class _MainScreenState extends State<MainScreen> {
 
   int currentPageIndex = 0;
   PageController pageController = PageController(initialPage:0);
-  final List<Widget> mainPages = [UserTypeChoices(),Search(),Categories(),UploadPost()];
+  final List<Widget> mainPages = [HomeScreen(), ClothesScreen(),LogosScreen(),ArtworksScreen()];
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +39,13 @@ class _MainScreenState extends State<MainScreen> {
               icon:Icon(Icons.home)
               ,label: HomeManager.bottomNavigationBarItemLabel1),
           BottomNavigationBarItem(
-              icon:Icon(Icons.search)
+              icon: FaIcon(FontAwesomeIcons.shirt)
               ,label: HomeManager.bottomNavigationBarItemLabel2  ),
           BottomNavigationBarItem(
-              icon:FaIcon(FontAwesomeIcons.userSecret)
+              icon:FaIcon(FontAwesomeIcons.circle)
               ,label: HomeManager.bottomNavigationBarItemLabel3 ),
           BottomNavigationBarItem(
-              icon:FaIcon(FontAwesomeIcons.towerBroadcast)
+              icon:FaIcon(FontAwesomeIcons.palette)
               ,label: HomeManager.bottomNavigationBarItemLabel4 )
         ],
         currentIndex: currentPageIndex,

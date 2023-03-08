@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:stylebusters/core/utils/constants/theme_manager.dart';
+import 'package:stylebusters/presentation/screens/main_screen.dart';
 
 void main() {
   runApp(ProviderScope(child:MyApp()));
@@ -13,11 +15,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-
-        primarySwatch: Colors.blue,
-      ),
-      home: HomePage(),
+      theme: AppThemeManager.lightMode,
+      home: MainScreen(),
     );
   }
 }

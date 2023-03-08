@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:stylebusters/core/utils/constants/styles_manager.dart';
 
-class ClothesScreen extends StatelessWidget {
-  ClothesScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatelessWidget {
+  HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: SafeArea(
+    return Scaffold(
+      appBar: AppBar(title: Text('Home',style: StylesManager.boldTextStyle),
+      centerTitle: true,),
+      body: SafeArea(
       child: Center(
-        child: Text("Clothes Screen"),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+          Image.asset('assets/images/logo.png',scale: 2,),
+          Text('We will catch every style',
+            style: StylesManager.boldTextStyle2,)
+        ],),
       ),
     ),);
   }
