@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stylebusters/core/utils/constants/theme_manager.dart';
+import 'package:stylebusters/presentation/screens/logos_screen.dart';
 import 'package:stylebusters/presentation/screens/main_screen.dart';
 
 void main() {
@@ -14,9 +15,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: AppThemeManager.lightMode,
-      home: MainScreen(),
+      home: LogosScreen(),
     );
   }
 }
