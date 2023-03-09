@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:stylebusters/core/routing/gorouter.dart';
 import 'package:stylebusters/core/utils/constants/theme_manager.dart';
 import 'package:stylebusters/presentation/screens/logos_screen.dart';
 import 'package:stylebusters/presentation/screens/main_screen.dart';
@@ -14,11 +15,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: AppThemeManager.lightMode,
-      home: LogosScreen(),
+      routerConfig: appRouter,
     );
   }
 }
