@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stylebusters/core/routing/gorouter.dart';
 import 'package:stylebusters/core/utils/constants/theme_manager.dart';
-import 'package:stylebusters/presentation/screens/logos_screen.dart';
-import 'package:stylebusters/presentation/screens/main_screen.dart';
 
 void main() {
   runApp(ProviderScope(child:MyApp()));
@@ -17,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'StyleBusters',
       theme: AppThemeManager.lightMode,
       routerConfig: appRouter,
     );
