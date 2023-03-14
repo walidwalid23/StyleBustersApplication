@@ -1,5 +1,10 @@
+import 'dart:io';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:stylebusters/core/utils/constants/colors_manager.dart';
 import 'package:stylebusters/presentation/reusable_widgets/DefaultFormField.dart';
+import 'package:stylebusters/presentation/reusable_widgets/show_image.dart';
 
 class LogosScreen extends StatefulWidget {
    LogosScreen({Key? key}) : super(key: key);
@@ -10,12 +15,14 @@ class LogosScreen extends StatefulWidget {
 class _LogosScreenState extends State<LogosScreen> {
   @override
   var key =GlobalKey<ScaffoldState>();
+  final ImagePicker pickimage = ImagePicker();
+  File? uploadimage;
+  File? logoimage;
   var Formkey = GlobalKey<FormState>();
-  var titleController = TextEditingController();
+  var emailController = TextEditingController();
   bool isBottomSheetShown = false;
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
+    return Scaffold(
           key: key,
           appBar: AppBar(
             title: Center(
@@ -26,17 +33,49 @@ class _LogosScreenState extends State<LogosScreen> {
           ),
           body: Column(
           children: [
+            // Center(
+            //   child: Padding(
+            //     padding: const EdgeInsets.all(20.0),
+            //     child: Container(
+            //       width: 500,
+            //       height: 500,
+            //       decoration: BoxDecoration(
+            //         image: DecorationImage(
+            //           image: AssetImage('assets/images/blankimage.png'),
+            //         )
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            // CarouselSlider(
+            //   items:,
+            //   options: CarouselOptions(
+            //     viewportFraction: 1,
+            //     height: 250,
+            //     initialPage: 0,
+            //     enableInfiniteScroll: true,
+            //     reverse: false,
+            //     autoPlay: false,
+            //     autoPlayInterval: Duration(seconds: 3),
+            //     autoPlayAnimationDuration: Duration(seconds: 1),
+            //     autoPlayCurve: Curves.fastOutSlowIn,
+            //     scrollDirection: Axis.horizontal,
+            //   ),
+            // ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.yellow,
-                  borderRadius: BorderRadius.circular(10),
-                ),
+                width: 500,
+                height: 500,
+                child: (logoimage==null)?Center(
+                  child: Text(
+                      "Upload Image to Show Similar Logos",
+                    style: TextStyle(
+                      fontSize: 23.0,
+                    ),
+                  ),
+                ) :Image.file(logoimage!),
               ),
-            ),
-            SizedBox(
-              height: 20,
             ),
           ],
           ),
@@ -53,37 +92,67 @@ class _LogosScreenState extends State<LogosScreen> {
                       color: Colors.grey[100],
                       child: Form(
                         key: Formkey,
-                        child: Column(
-                          children: [
-                            // DefaultTextFormField(
-                            //     Controller: titleController,
-                            //     type: TextInputType.text,
-                            //     hintText: 'Task title',
-                            //     validate: (String value) {
-                            //       if (value.isEmpty) {
-                            //         return 'title must not be empty';
-                            //       }
-                            //     },
-                            //     prefix: Icons.title
-                            // ),
-                            SizedBox(
-                              height: 40.0,
-                            ),
-                            ElevatedButton(
-                              onPressed: (){},
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    "Submit",
-                                    style: TextStyle(
-                                        color: Colors.black
-                                    ),
-                                  ),
-                                ],
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Column(
+                            children: [
+                              ShowImage(
+                                image: uploadimage,
                               ),
-                            ),
-                          ],
+                              ElevatedButton(
+                                  child: const Text('Upload Logo Image'),
+                                  onPressed: () async{
+                                    final image = await pickimage.pickImage(
+                                        source: ImageSource.gallery
+                                    );
+                                    if(image == null){
+                                      return;
+                                    }
+                                    setState(() {
+                                      uploadimage = File(image.path);
+                                    });
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: ColorsManager.themeColor1
+                                  ),
+                              ),
+                              SizedBox(
+                                height: 10.0,
+                              ),
+                              DefaultFormField(
+                                prefix: Icons.email,
+                                validate: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Email must not be empty";
+                                  }
+                                  return null;
+                                },
+                                Label:"Email*" ,
+                                type: TextInputType.visiblePassword,
+                                Controller: emailController,
+                              ),
+                              SizedBox(
+                                height: 10.0,
+                              ),
+                              ElevatedButton(
+                                onPressed: (){},
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      "Submit",
+                                      style: TextStyle(
+                                          color: Colors.white
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: ColorsManager.themeColor1
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ));
@@ -94,7 +163,6 @@ class _LogosScreenState extends State<LogosScreen> {
                   Icons.add
               ),
           ),
-        )
     );
 }
 }

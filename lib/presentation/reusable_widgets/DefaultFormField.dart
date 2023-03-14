@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:stylebusters/core/utils/constants/colors_manager.dart';
 
-class DefaultTextFormField extends StatelessWidget {
-  DefaultTextFormField({
+class DefaultFormField extends StatelessWidget {
+  DefaultFormField({
     Key? key,
     required this.type,
     required this.Controller,
-    required this.hintText,
+    required this.Label,
     required this.validate,
     required this.prefix,
-    this.showPassword = false,
-    this.iconSwitch,
+    this.isPassword = false,
+    this.icon,
     this.suffix,
   }) : super(key: key);
   TextEditingController Controller;
   TextInputType type;
-  String hintText;
+  String Label;
   var validate;
   IconData prefix;
   var suffix;
-  bool showPassword;
-  var iconSwitch;
+  bool isPassword;
+  var icon;
 
   @override
   Widget build(BuildContext context) {
@@ -28,29 +28,18 @@ class DefaultTextFormField extends StatelessWidget {
       validator: validate,
       controller: Controller,
       keyboardType: type,
-      cursorColor: Colors.black,
-      obscureText: showPassword,
-      maxLength: 50,
+      obscureText: isPassword,
+      maxLength: 60,
       decoration: InputDecoration(
-        hintText: "${hintText}",
+        labelText: "${Label}",
         prefixIcon: Icon(prefix, color: ColorsManager.themeColor1),
         suffixIcon: suffix != null
             ? IconButton(
-          onPressed: iconSwitch,
+          onPressed: icon,
           icon: Icon(suffix),
-          color: Colors.black,
         )
             : null,
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.0),
-          borderSide: BorderSide(width: 1, color: ColorsManager.themeColor1!),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.0),
-          borderSide: BorderSide(width: 1, color: Colors.blue[800]!),
-        ),
-        //fillColor: Colors.white,
-        filled: true,
+        border: OutlineInputBorder(),
       ),
     );
   }
