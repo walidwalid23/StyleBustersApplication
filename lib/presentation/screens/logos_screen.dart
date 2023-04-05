@@ -1,5 +1,4 @@
 import 'package:stylebusters/core/utils/constants/colors_manager.dart';
-//import 'package:fakebustersapp/domain/entities/post.dart';
 import 'package:stylebusters/core/utils/constants/styles_manager.dart';
 import 'package:stylebusters/presentation/reusable_widgets/custom_input_form_field.dart';
 import 'package:stylebusters/presentation/reusable_widgets/image_container.dart';
@@ -8,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-//import '../../domain/entities/uploaded_post.dart';
+import '../../domain/entities/logo_entity.dart';
 //import '../controller/post_providers.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -25,8 +24,8 @@ class _UploadPostState extends ConsumerState<UploadPost> {
   final ImagePicker _picker = ImagePicker();
   File? logoImage;
   String imageValidationError = '';
-  TextEditingController productNameController = TextEditingController();
-  TextEditingController brandNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +50,7 @@ class _UploadPostState extends ConsumerState<UploadPost> {
                   }
                   return null;
                 },
-                textFieldController: productNameController,
+                textFieldController: emailController ,
               ),
 
               ImageContainer(
@@ -92,18 +91,17 @@ class _UploadPostState extends ConsumerState<UploadPost> {
                     if (_formKey.currentState!.validate() &&
                         logoImage != null) {
                       // DATA IS VALID
-                      UploadedPost postData = UploadedPost(
-                          productName: productNameController.text,
-                          brandName: brandNameController.text,
-                          productImage: logoImage!,
-                          productCategory: dropdownValue);
+                      Logo postData = Logo(
+                          uploaderEmail: emailController.text,
+                          logoImage: logoImage!,
+                        );
                       // upload the post
                       ref.read(uploadPostProvider(context).notifier)
                           .uploadPostState(postData);
                     } else if (logoImage == null) {
                       setState(() {
                         imageValidationError =
-                        'Please Upload The Product Image';
+                        'Please Upload A Logo Image';
                       });
                     }
                   },
