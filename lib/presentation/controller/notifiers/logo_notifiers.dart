@@ -36,7 +36,7 @@ class GetSimilarLogosStateNotifier extends StateNotifier <AsyncValue<dynamic>>{
           msg:  success.successMessage,
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb:3,
+          timeInSecForIosWeb:10,
           backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 16,

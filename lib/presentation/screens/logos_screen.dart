@@ -8,27 +8,31 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import '../../domain/entities/logo_entity.dart';
-//import '../controller/post_providers.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import '../controller/providers/logo_providers.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:country_state_city/country_state_city.dart';
 
-class UploadPost extends ConsumerStatefulWidget {
-  const UploadPost({Key? key}) : super(key: key);
+class LogosScreen extends ConsumerStatefulWidget {
+  const  LogosScreen({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<UploadPost> createState() => _UploadPostState();
+  ConsumerState<LogosScreen> createState() => _LogosScreenState();
 }
 
-class _UploadPostState extends ConsumerState<UploadPost> {
+class _LogosScreenState extends ConsumerState<LogosScreen> {
 
   final _formKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
   File? logoImage;
   String imageValidationError = '';
   TextEditingController emailController = TextEditingController();
+  String dropdownValue = "select";
 
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Upload Logo'),
@@ -45,6 +49,9 @@ class _UploadPostState extends ConsumerState<UploadPost> {
                 validatorFunc: (value) {
                   if (value == null || value.isEmpty) {
                     return 'You Cannot Leave The Email Field Empty';
+                  } else if(EmailValidator.validate(value)==false){
+                    return 'Please Enter A Valid Email';
+
                   } else if (value.length > 60) {
                     return 'Exceeded Maximum Characters Length';
                   }
@@ -52,8 +59,55 @@ class _UploadPostState extends ConsumerState<UploadPost> {
                 },
                 textFieldController: emailController ,
               ),
+          Padding(
+            padding: const EdgeInsets.all(15),
+            child: FutureBuilder(
+            future:getAllCountries() ,
+    builder: (BuildContext context, AsyncSnapshot snapshot) {
+    if (snapshot.hasData) {
+      // load all countries
 
-              ImageContainer(
+              return DropdownButtonFormField(
+                value: dropdownValue,
+                items:snapshot.data.map<DropdownMenuItem<String>>((country) =>
+                      DropdownMenuItem<String>(
+                      value: country.isoCode ,
+                      child: Text(country.name,
+                          style: TextStyle(color: Colors.black)),
+
+                    )).toList()..addAll([DropdownMenuItem<String>(
+                  value: "select",
+                  child: Text("Select Country",
+                      style: TextStyle(color: Colors.grey)),
+                  enabled: false,
+                )])
+                ,onChanged: (value) {
+                   setState(() {
+                  dropdownValue = value!;
+                  });
+          },
+
+                validator: (value) {
+                  if (value == null || value == 'select') {
+                    return 'Please Select A Country';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                      borderRadius: BorderRadius.circular(10)),
+                ),
+              );}
+
+    else{
+      return  SpinKitRing(color: ColorsManager.themeColor1!);
+    }
+
+    }
+            ),
+          )
+              ,ImageContainer(
                 uploadedImage: logoImage,
                 width: 200,
                 height: 200,
@@ -91,13 +145,13 @@ class _UploadPostState extends ConsumerState<UploadPost> {
                     if (_formKey.currentState!.validate() &&
                         logoImage != null) {
                       // DATA IS VALID
-                      Logo postData = Logo(
+                      Logo logo = Logo(
                           uploaderEmail: emailController.text,
                           logoImage: logoImage!,
+                        logosCountry: dropdownValue
                         );
                       // upload the post
-                      ref.read(uploadPostProvider(context).notifier)
-                          .uploadPostState(postData);
+                      ref.read(getSimilarLogosProvider.notifier).getSimilarLogosState(logo);
                     } else if (logoImage == null) {
                       setState(() {
                         imageValidationError =
@@ -113,7 +167,7 @@ class _UploadPostState extends ConsumerState<UploadPost> {
                   ),
                 ),
               ),
-              ref.watch(uploadPostProvider(context)).when(
+              ref.watch(getSimilarLogosProvider).when(
                   data: (data) => Container(),
                   error: (error, st) => Text(
                     error.toString(),

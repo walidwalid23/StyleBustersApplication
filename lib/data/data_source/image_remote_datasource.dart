@@ -27,12 +27,14 @@ class ImageRemoteDataSource extends BaseImageRemoteDataSource {
     FormData formData = FormData.fromMap({
     "image": imageFile,
     "email": logo.uploaderEmail,
+      "country":logo.logosCountry
     });
 
     Dio dio = Dio();
+    print("before here");
     var response = await dio.post("${ServerManager.baseUrl}/sendLogo",
     data: formData);
-
+    print("in here");
     int statusCode = response.statusCode!;
 
     if (statusCode == 200) {
@@ -65,6 +67,7 @@ class ImageRemoteDataSource extends BaseImageRemoteDataSource {
     throw GenericException(errorMessage: "Unknown Exception Has Occurred");
     }
     } catch (error, st) {
+          print(error);
           print(st);
     // CATCH ANY OTHER LEFT EXCEPTION
     throw GenericException(errorMessage: "Unknown Exception Has Occurred");
