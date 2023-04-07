@@ -25,15 +25,16 @@ class CustomTextInputField extends StatelessWidget {
           decoration: InputDecoration(
             label:label ,
             hintText: hintText,
-            labelStyle: TextStyle(color: ColorsManager.themeColor1),
-            border: OutlineInputBorder(
+            labelStyle: TextStyle(color: Colors.black),
+            enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 color: Colors.black,
               ),
               borderRadius: BorderRadius.circular(10),
             ),
+
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: ColorsManager.themeColor1!),
+              borderSide: BorderSide(color: Colors.black),
             ),
           ),
           validator: validatorFunc,

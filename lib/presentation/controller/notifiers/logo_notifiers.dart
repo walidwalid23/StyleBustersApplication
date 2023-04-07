@@ -17,7 +17,8 @@ class GetSimilarLogosStateNotifier extends StateNotifier <AsyncValue<dynamic>>{
   // the initial state will be null cause nothing should be shown till the sign up button is clicked
   GetSimilarLogosStateNotifier(): super( AsyncData(null) );
 
-  void getSimilarLogosState(Logo logo) async{
+  void getSimilarLogosState(Logo logo, BuildContext context) async{
+
     BaseImageRemoteDataSource imageRemoteDataSource = ImageRemoteDataSource();
     BaseImageRepository imageRepository  = ImageRepository(imageRemoteDataSource);
     GetSimilarLogos getSimilarLogosUseCase = GetSimilarLogos(imageRepository: imageRepository);
@@ -32,7 +33,18 @@ class GetSimilarLogosStateNotifier extends StateNotifier <AsyncValue<dynamic>>{
       // but we set it to null to stop loading in case the user went to previous screen
       super.state = AsyncData(null);
 
-      Fluttertoast.showToast(
+    var snackBar = SnackBar(
+      content: Text(success.successMessage),
+      duration: Duration(seconds: 8),
+      backgroundColor: Colors.green,
+      padding: EdgeInsets.all(30),
+
+
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+
+      /* Fluttertoast.showToast(
           msg:  success.successMessage,
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
@@ -41,8 +53,12 @@ class GetSimilarLogosStateNotifier extends StateNotifier <AsyncValue<dynamic>>{
           textColor: Colors.white,
           fontSize: 16,
       );
+      */
+    }
 
-    });
+
+
+   );
 
   }
 }
