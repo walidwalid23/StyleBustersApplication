@@ -4,13 +4,12 @@ import 'package:stylebusters/core/exception_handling/failures.dart';
 import 'package:stylebusters/core/exception_handling/success.dart';
 import 'package:stylebusters/data/data_source/base_image_remote_datasource.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:go_router/go_router.dart';
+//import 'package:fluttertoast/fluttertoast.dart';
+//import 'package:go_router/go_router.dart';
 import '../../../data/data_repository/image_repository.dart';
 import '../../../data/data_source/image_remote_datasource.dart';
 import '../../../domain/domain_repository/base_image_repository.dart';
 import '../../../domain/usecases/get_similar_logos_usecase.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../domain/entities/logo_entity.dart';
 
 class GetSimilarLogosStateNotifier extends StateNotifier <AsyncValue<dynamic>>{
