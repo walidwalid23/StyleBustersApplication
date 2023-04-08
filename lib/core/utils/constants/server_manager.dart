@@ -1,3 +1,3 @@
 class ServerManager{
-  static const String baseUrl = 'https://fakebusters-backend.up.railway.app';
+  static const String baseUrl = 'https://logos-stylebusters.onrender.com';
 }

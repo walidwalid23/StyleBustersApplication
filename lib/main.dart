@@ -4,7 +4,9 @@ import 'package:stylebusters/core/routing/gorouter.dart';
 import 'package:stylebusters/core/utils/constants/theme_manager.dart';
 
 void main() {
+
   runApp(ProviderScope(child:MyApp()));
+
 }
 
 class MyApp extends StatelessWidget {
