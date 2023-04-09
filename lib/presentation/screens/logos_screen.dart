@@ -9,7 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import '../../domain/entities/logo_entity.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import '../controller/providers/logo_providers.dart';
+import '../controller/providers/logos_providers.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:country_state_city/country_state_city.dart';
 

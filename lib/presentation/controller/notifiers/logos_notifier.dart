@@ -34,7 +34,7 @@ class GetSimilarLogosStateNotifier extends StateNotifier <AsyncValue<dynamic>>{
 
     var snackBar = SnackBar(
       content: Text(success.successMessage),
-      duration: Duration(seconds: 8),
+      duration: Duration(seconds: 10),
       backgroundColor: Colors.green,
       padding: EdgeInsets.all(30),
 
