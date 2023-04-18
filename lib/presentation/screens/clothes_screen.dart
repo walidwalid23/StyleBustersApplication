@@ -5,6 +5,8 @@ import 'package:stylebusters/core/utils/constants/colors_manager.dart';
 import 'package:stylebusters/presentation/reusable_widgets/DefaultFormField.dart';
 import 'package:stylebusters/presentation/reusable_widgets/show_image.dart';
 
+import '../reusable_widgets/home_drawer.dart';
+
 class ClothesScreen extends StatefulWidget {
    ClothesScreen({Key? key}) : super(key: key);
 
@@ -34,7 +36,7 @@ class _ClothesScreenState extends State<ClothesScreen> {
       appBar: AppBar(
         title: Center(
           child: Text(
-              "Logos"
+              "Clothes"
           ),
         ),
       ),
@@ -170,6 +172,7 @@ class _ClothesScreenState extends State<ClothesScreen> {
             Icons.add
         ),
       ),
+      drawer: const HomeDrawer(),
     );
   }
 }

@@ -29,7 +29,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  flutter_native_splash: ^2.2.19
+
   flutter:
     sdk: flutter
 
@@ -53,6 +53,7 @@ dependencies:
   modal_bottom_sheet: ^2.1.2
   email_validator: ^2.1.17
   country_state_city: ^0.1.6
+  flutter_native_splash: ^2.2.19
 
 
 
@@ -112,5 +113,5 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
 
 flutter_native_splash:
-  color: "#c9b65d"
-  background_image: "assets/logo.png"
+  color: "#FFFFFF"
+  image: "assets/images/logo.png"

@@ -12,6 +12,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../controller/providers/artworks_providers.dart';
 import 'package:email_validator/email_validator.dart';
 
+import '../reusable_widgets/home_drawer.dart';
+
 
 class ArtworksScreen extends ConsumerStatefulWidget {
   const  ArtworksScreen({Key? key}) : super(key: key);
@@ -195,7 +197,7 @@ class _ArtworksScreenState extends ConsumerState<ArtworksScreen> {
           ),
         ),
       ),
-      //   drawer: HomeDrawer(),
+        drawer: const HomeDrawer(),
     );
   }
 }

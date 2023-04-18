@@ -13,6 +13,8 @@ import '../controller/providers/logos_providers.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:country_state_city/country_state_city.dart';
 
+import '../reusable_widgets/home_drawer.dart';
+
 class LogosScreen extends ConsumerStatefulWidget {
   const  LogosScreen({Key? key}) : super(key: key);
 
@@ -188,7 +190,7 @@ class _LogosScreenState extends ConsumerState<LogosScreen> {
           ),
         ),
       ),
-   //   drawer: HomeDrawer(),
+     drawer: const HomeDrawer(),
     );
   }
 }

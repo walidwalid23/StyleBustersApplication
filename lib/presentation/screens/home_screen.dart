@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:stylebusters/core/utils/constants/styles_manager.dart';
 
+import '../reusable_widgets/home_drawer.dart';
+
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
 
@@ -19,6 +21,7 @@ class HomeScreen extends StatelessWidget {
             style: StylesManager.boldTextStyle2,)
         ],),
       ),
-    ),);
+    ),
+      drawer: const HomeDrawer(),);
   }
 }

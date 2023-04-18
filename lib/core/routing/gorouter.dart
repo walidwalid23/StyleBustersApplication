@@ -6,18 +6,14 @@ import 'package:stylebusters/presentation/screens/home_screen.dart';
 import 'package:stylebusters/presentation/screens/logos_screen.dart';
 import 'package:stylebusters/presentation/screens/main_screen.dart';
 
+import '../../presentation/screens/aboutus_screen.dart';
+
 final GoRouter appRouter = GoRouter(
   routes: <GoRoute>[
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
         return MainScreen();
-      },
-    ),
-    GoRoute(
-      path: '/home',
-      builder: (BuildContext context, GoRouterState state) {
-        return HomeScreen();
       },
     ),
     GoRoute(
@@ -36,6 +32,12 @@ final GoRouter appRouter = GoRouter(
       path: '/artworks',
       builder: (BuildContext context, GoRouterState state) {
         return ArtworksScreen();
+      },
+    ),
+    GoRoute(
+      path: '/aboutus',
+      builder: (BuildContext context, GoRouterState state) {
+        return AboutUsScreen();
       },
     ),
   ],
