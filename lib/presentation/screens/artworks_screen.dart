@@ -2,7 +2,6 @@ import 'package:stylebusters/core/utils/constants/colors_manager.dart';
 import 'package:stylebusters/core/utils/constants/styles_manager.dart';
 import 'package:stylebusters/presentation/reusable_widgets/custom_input_form_field.dart';
 import 'package:stylebusters/presentation/reusable_widgets/image_container.dart';
-//import 'package:fakebustersapp/presentation/reusable_widgets/home_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,7 +10,6 @@ import '../../domain/entities/artwork_entity.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../controller/providers/artworks_providers.dart';
 import 'package:email_validator/email_validator.dart';
-
 import '../reusable_widgets/home_drawer.dart';
 
 
@@ -56,8 +54,11 @@ class _ArtworksScreenState extends ConsumerState<ArtworksScreen> {
         child: Container(
           decoration: BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage('assets/images/logosbg4.png'),
-                  fit: BoxFit.cover)),
+                  image: AssetImage('assets/images/colors1.png'),
+                  alignment: Alignment.bottomLeft,
+                  opacity: 0.9,
+                  scale: 1,
+                  fit: BoxFit.none,)),
           child: Form(
             key: _formKey,
             child: ListView(
