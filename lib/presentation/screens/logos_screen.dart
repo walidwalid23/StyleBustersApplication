@@ -16,13 +16,14 @@ import 'package:country_state_city/country_state_city.dart';
 import '../reusable_widgets/home_drawer.dart';
 
 class LogosScreen extends ConsumerStatefulWidget {
-  const LogosScreen({Key? key}) : super(key: key);
+  const  LogosScreen({Key? key}) : super(key: key);
 
   @override
   ConsumerState<LogosScreen> createState() => _LogosScreenState();
 }
 
 class _LogosScreenState extends ConsumerState<LogosScreen> {
+
   final _formKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
   File? logoImage;
@@ -30,8 +31,10 @@ class _LogosScreenState extends ConsumerState<LogosScreen> {
   TextEditingController emailController = TextEditingController();
   String dropdownValue = "select";
 
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Find Similar Logos'),
@@ -41,80 +44,79 @@ class _LogosScreenState extends ConsumerState<LogosScreen> {
         child: Container(
           decoration: BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage('assets/images/logo.jpg'),
-                  fit: BoxFit.cover)),
+              image: AssetImage('assets/images/logosbg4.png'),
+              fit: BoxFit.cover)),
           child: Form(
             key: _formKey,
             child: ListView(
               children: [
                 CustomTextInputField(
-                  hintText: "Enter Your Email",
-                  label: const Text("Email*"),
+                hintText: "Enter Your Email",
+                label:const Text("Email*"),
                   validatorFunc: (value) {
                     if (value == null || value.isEmpty) {
                       return 'You Cannot Leave The Email Field Empty';
-                    } else if (EmailValidator.validate(value) == false) {
+                    } else if(EmailValidator.validate(value)==false){
                       return 'Please Enter A Valid Email';
+
                     } else if (value.length > 60) {
                       return 'Exceeded Maximum Characters Length';
                     }
                     return null;
                   },
-                  textFieldController: emailController,
+                  textFieldController: emailController ,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: FutureBuilder(
-                      future: getAllCountries(),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasData) {
-                          // load all countries
-                          return DropdownButtonFormField(
-                            value: dropdownValue,
-                            items: [
-                                  DropdownMenuItem<String>(
-                                    value: "select",
-                                    child: Text("Select Country",
-                                        style: TextStyle(color: Colors.grey)),
-                                    enabled: false,
-                                  )
-                                ] +
-                                snapshot.data
-                                    .map<DropdownMenuItem<String>>(
-                                        (country) => DropdownMenuItem<String>(
-                                              value: country.isoCode,
-                                              child: Text(country.name,
-                                                  style: TextStyle(
-                                                      color: Colors.black)),
-                                            ))
-                                    .toList(),
-                            onChanged: (value) {
-                              setState(() {
-                                dropdownValue = value!;
-                              });
-                            },
-                            validator: (value) {
-                              if (value == null || value == 'select') {
-                                return 'Please Select A Country';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white,
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.black),
-                                    borderRadius: BorderRadius.circular(10)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.black),
-                                    borderRadius: BorderRadius.circular(10))),
-                          );
-                        } else {
-                          return SpinKitRing(color: ColorsManager.themeColor1!);
-                        }
-                      }),
-                ),
-                ImageContainer(
+            Padding(
+              padding: const EdgeInsets.all(15),
+              child: FutureBuilder(
+              future:getAllCountries() ,
+    builder: (BuildContext context, AsyncSnapshot snapshot) {
+    if (snapshot.hasData) {
+      // load all countries
+                return DropdownButtonFormField(
+                  value: dropdownValue,
+                  items:[DropdownMenuItem<String>(
+                    value: "select",
+                    child: Text("Select Country",
+                        style: TextStyle(color: Colors.grey)),
+                    enabled: false,
+                  )]+snapshot.data.map<DropdownMenuItem<String>>((country) =>
+                        DropdownMenuItem<String>(
+                        value: country.isoCode ,
+                        child: Text(country.name,
+                            style: TextStyle(color: Colors.black)),
+
+                      )).toList()
+                  ,onChanged: (value) {
+                     setState(() {
+                    dropdownValue = value!;
+                    });
+            },
+
+                  validator: (value) {
+                    if (value == null || value == 'select') {
+                      return 'Please Select A Country';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                        borderRadius: BorderRadius.circular(10)),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                        borderRadius: BorderRadius.circular(10))
+                  ),
+                );}
+
+    else{
+      return  SpinKitRing(color: ColorsManager.themeColor1!);
+    }
+
+    }
+              ),
+            )
+                ,ImageContainer(
                   uploadedImage: logoImage,
                   width: 200,
                   height: 200,
@@ -125,7 +127,7 @@ class _LogosScreenState extends ConsumerState<LogosScreen> {
                     child: const Text('Upload Logo Image'),
                     onPressed: () async {
                       final XFile? image =
-                          await _picker.pickImage(source: ImageSource.gallery);
+                      await _picker.pickImage(source: ImageSource.gallery);
                       if (image == null) {
                         return;
                       }
@@ -139,9 +141,9 @@ class _LogosScreenState extends ConsumerState<LogosScreen> {
                 ),
                 Center(
                     child: Text(
-                  imageValidationError,
-                  style: StylesManager.notificationStyle,
-                )),
+                      imageValidationError,
+                      style: StylesManager.notificationStyle,
+                    )),
                 Padding(
                   padding: const EdgeInsets.only(left: 80, right: 80),
                   child: ElevatedButton(
@@ -155,14 +157,14 @@ class _LogosScreenState extends ConsumerState<LogosScreen> {
                         Logo logo = Logo(
                             uploaderEmail: emailController.text,
                             logoImage: logoImage!,
-                            logosCountry: dropdownValue);
+                          logosCountry: dropdownValue
+                          );
                         // upload the post
-                        ref
-                            .read(getSimilarLogosProvider.notifier)
-                            .getSimilarLogosState(logo, context);
+                        ref.read(getSimilarLogosProvider.notifier).getSimilarLogosState(logo,context);
                       } else if (logoImage == null) {
                         setState(() {
-                          imageValidationError = 'Please Upload A Logo Image';
+                          imageValidationError =
+                          'Please Upload A Logo Image';
                         });
                       }
                     },
@@ -177,10 +179,10 @@ class _LogosScreenState extends ConsumerState<LogosScreen> {
                 ref.watch(getSimilarLogosProvider).when(
                     data: (data) => Container(),
                     error: (error, st) => Text(
-                          error.toString(),
-                          style: TextStyle(
-                              color: Colors.red, fontWeight: FontWeight.bold),
-                        ),
+                      error.toString(),
+                      style: TextStyle(
+                          color: Colors.red, fontWeight: FontWeight.bold),
+                    ),
                     loading: () =>
                         SpinKitRing(color: ColorsManager.themeColor1!))
               ],
@@ -188,7 +190,7 @@ class _LogosScreenState extends ConsumerState<LogosScreen> {
           ),
         ),
       ),
-      drawer: const HomeDrawer(),
+     drawer: const HomeDrawer(),
     );
   }
 }
