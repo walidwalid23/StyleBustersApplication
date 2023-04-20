@@ -21,7 +21,11 @@ class _MainScreenState extends State<MainScreen> {
 
   int currentPageIndex = 0;
   PageController pageController = PageController(initialPage:0);
-  final List<Widget> mainPages = [HomeScreen(), ClothesScreen(),LogosScreen(),ArtworksScreen()];
+  final List<Widget> mainPages = [
+    HomeScreen(),
+   // ClothesScreen(),
+    LogosScreen(),
+    ArtworksScreen()];
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +42,10 @@ class _MainScreenState extends State<MainScreen> {
           BottomNavigationBarItem(
               icon:Icon(Icons.home)
               ,label: HomeManager.bottomNavigationBarItemLabel1),
+          /*
           BottomNavigationBarItem(
               icon: FaIcon(FontAwesomeIcons.shirt)
-              ,label: HomeManager.bottomNavigationBarItemLabel2  ),
+              ,label: HomeManager.bottomNavigationBarItemLabel2  ),*/
           BottomNavigationBarItem(
               icon:FaIcon(FontAwesomeIcons.circle)
               ,label: HomeManager.bottomNavigationBarItemLabel3 ),

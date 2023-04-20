@@ -42,6 +42,7 @@ class _LogosScreenState extends ConsumerState<LogosScreen> {
           decoration: BoxDecoration(
               image: DecorationImage(
                   image: AssetImage('assets/images/logo.jpg'),
+                  opacity: 0.2,
                   fit: BoxFit.cover)),
           child: Form(
             key: _formKey,

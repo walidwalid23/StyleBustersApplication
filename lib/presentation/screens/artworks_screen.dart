@@ -54,11 +54,12 @@ class _ArtworksScreenState extends ConsumerState<ArtworksScreen> {
         child: Container(
           decoration: BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage('assets/images/colors1.png'),
-                  alignment: Alignment.bottomLeft,
-                  opacity: 0.9,
+                  image: AssetImage('assets/images/artworks-bg.jpg'),
+                  alignment: Alignment.center,
+                  opacity: 1,
+
                   scale: 1,
-                  fit: BoxFit.none,)),
+                  fit: BoxFit.cover,)),
           child: Form(
             key: _formKey,
             child: ListView(
@@ -115,6 +116,8 @@ class _ArtworksScreenState extends ConsumerState<ArtworksScreen> {
                               return null;
                             },
                             decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.white,
                                 enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(color: Colors.black),
                                     borderRadius: BorderRadius.circular(10)),
