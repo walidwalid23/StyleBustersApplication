@@ -25,7 +25,7 @@ class CustomTextInputField extends StatelessWidget {
             fillColor: Colors.white,
             label: label,
             hintText: hintText,
-            labelStyle: TextStyle(color: Colors.black),
+            labelStyle: TextStyle(color: Colors.grey),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 color: Colors.black,
