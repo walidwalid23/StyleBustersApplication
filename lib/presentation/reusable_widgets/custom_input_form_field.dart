@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class CustomTextInputField extends StatelessWidget {
@@ -7,7 +6,7 @@ class CustomTextInputField extends StatelessWidget {
       required this.hintText,
       required this.validatorFunc,
       required this.textFieldController,
-   required this.label})
+      required this.label})
       : super(key: key);
   String hintText;
   Widget label;
@@ -18,12 +17,13 @@ class CustomTextInputField extends StatelessWidget {
     return Padding(
         padding: const EdgeInsets.all(15),
         child: TextFormField(
-
           controller: textFieldController,
           maxLength: 60,
           cursorColor: Colors.black,
           decoration: InputDecoration(
-            label:label ,
+            filled: true,
+            fillColor: Colors.white,
+            label: label,
             hintText: hintText,
             labelStyle: TextStyle(color: Colors.black),
             enabledBorder: OutlineInputBorder(
@@ -32,7 +32,6 @@ class CustomTextInputField extends StatelessWidget {
               ),
               borderRadius: BorderRadius.circular(10),
             ),
-
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.black),
             ),
