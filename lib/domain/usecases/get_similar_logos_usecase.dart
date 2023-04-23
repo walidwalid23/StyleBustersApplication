@@ -10,7 +10,5 @@ class GetSimilarLogos{
 
   Future<Either<Failure, Success>> excute(Logo logo) async {
     return await imageRepository.getSimilarLogos(logo);
-
   }
-
 }

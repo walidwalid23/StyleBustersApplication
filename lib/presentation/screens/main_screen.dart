@@ -8,8 +8,6 @@ import '../../presentation/screens/clothes_screen.dart';
 import '../../presentation/screens/logos_screen.dart';
 import '../../presentation/screens/artworks_screen.dart';
 
-
-
 class MainScreen extends StatefulWidget {
   MainScreen({Key? key}) : super(key: key);
   @override
@@ -23,9 +21,10 @@ class _MainScreenState extends State<MainScreen> {
   PageController pageController = PageController(initialPage:0);
   final List<Widget> mainPages = [
     HomeScreen(),
-   // ClothesScreen(),
+    ClothesScreen(),
     LogosScreen(),
-    ArtworksScreen()];
+    ArtworksScreen()
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -42,10 +41,9 @@ class _MainScreenState extends State<MainScreen> {
           BottomNavigationBarItem(
               icon:Icon(Icons.home)
               ,label: HomeManager.bottomNavigationBarItemLabel1),
-          /*
           BottomNavigationBarItem(
               icon: FaIcon(FontAwesomeIcons.shirt)
-              ,label: HomeManager.bottomNavigationBarItemLabel2  ),*/
+              ,label: HomeManager.bottomNavigationBarItemLabel2  ),
           BottomNavigationBarItem(
               icon:FaIcon(FontAwesomeIcons.circle)
               ,label: HomeManager.bottomNavigationBarItemLabel3 ),

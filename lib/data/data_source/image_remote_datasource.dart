@@ -1,4 +1,5 @@
 import 'package:stylebusters/domain/entities/artwork_entity.dart';
+import 'package:stylebusters/domain/entities/clothes_entity.dart';
 
 import '../../domain/entities/logo_entity.dart';
 import 'package:stylebusters/data/data_source/base_image_remote_datasource.dart';
@@ -108,6 +109,88 @@ class ImageRemoteDataSource extends BaseImageRemoteDataSource {
           "image": imageFile,
           "email": artwork.uploaderEmail,
           "artistNationality": artwork.artistNationality
+        });
+        response = await dio.post(
+            "${ServerManager.artworksBaseUrl}/get-artworks-by-artist-nationality",
+            data: formData);
+      }
+
+
+      print(response.data);
+
+      int statusCode = response.statusCode!;
+
+      if (statusCode == 200) {
+        return response.data['successMessage'];
+      }
+      // since the server didn't return 200 then there must have been a problem
+      else {
+        throw ServerException(
+            networkErrorModel: NetworkErrorModel.fromJson(response.data));
+      }
+    }
+    // CATCHING THE DIO EXCEPTIONS AND THROWING OUR CUSTOM EXCEPTIONS
+    on DioError catch (e) {
+      print(e);
+      if ((e.type == DioErrorType.connectionTimeout ||
+          e.type == DioErrorType.receiveTimeout)) {
+        // handle no connection error
+        throw ConnectionException(errorMessage: "No Internet Connection");
+      }
+      // this condition applies if status code falls out of the range of 2xx and is also not 304.
+      //WE ALREADY HANDLED THIS ABOVE BUT WE MUST HANDLE IT THROW DIO AS WELL CAUSE IT THROWS IT
+      else if (e.response != null) {
+        //this is the same data as response.data
+        print(e.response!.data);
+        throw ServerException(
+            networkErrorModel: NetworkErrorModel.fromJson(e.response!.data));
+      } else {
+        // rethrow the exception again cause you didn't handle it (nothing happens when its rethrown till you handle it)
+        // rethrow;
+        // OR CREATE A GENERIC ERROR MESSAGE
+        throw GenericException(errorMessage: "Unknown Exception Has Occurred");
+      }
+    } catch (error, st) {
+      print(error);
+      print(st);
+      // CATCH ANY OTHER LEFT EXCEPTION
+      throw GenericException(errorMessage: "Unknown Exception Has Occurred");
+    }
+  }
+
+  @override
+  Future<String> getSimilarClothes(Clothes clothes) async {
+    // send a post request to the server
+    try {
+      File artworkImage = clothes.clothesImage;
+      String imageName = artworkImage.path.split('/').last;
+      String imageExtension = path.extension(artworkImage.path).split('.').last;
+
+      final imageFile = await MultipartFile.fromFile(
+        artworkImage.path,
+        filename: imageName,
+        contentType: MediaType("image", imageExtension), //important
+      );
+
+      Dio dio = Dio();
+      var response;
+
+      if (clothes.artistNationality=='all'){
+        FormData formData = FormData.fromMap({
+          "image": imageFile,
+          "email": clothes.uploaderEmail,
+        });
+
+        response = await dio.post(
+            "${ServerManager.artworksBaseUrl}/get-all-artworks",
+            data: formData);
+      }
+      else{
+
+        FormData formData = FormData.fromMap({
+          "image": imageFile,
+          "email": clothes.uploaderEmail,
+          "artistNationality": clothes.artistNationality
         });
         response = await dio.post(
             "${ServerManager.artworksBaseUrl}/get-artworks-by-artist-nationality",
