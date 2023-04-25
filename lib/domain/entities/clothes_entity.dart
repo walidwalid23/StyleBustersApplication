@@ -1,7 +1,7 @@
 class Clothes{
   String uploaderEmail;
   dynamic clothesImage;
-  String artistNationality;
+  String ClothesGender;
 
-  Clothes({required this.uploaderEmail, required this.clothesImage, required this.artistNationality});
+  Clothes({required this.uploaderEmail, required this.clothesImage, required this.ClothesGender});
 }

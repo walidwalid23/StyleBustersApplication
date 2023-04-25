@@ -162,12 +162,12 @@ class ImageRemoteDataSource extends BaseImageRemoteDataSource {
   Future<String> getSimilarClothes(Clothes clothes) async {
     // send a post request to the server
     try {
-      File artworkImage = clothes.clothesImage;
-      String imageName = artworkImage.path.split('/').last;
-      String imageExtension = path.extension(artworkImage.path).split('.').last;
+      File clothesImage = clothes.clothesImage;
+      String imageName = clothesImage.path.split('/').last;
+      String imageExtension = path.extension(clothesImage.path).split('.').last;
 
       final imageFile = await MultipartFile.fromFile(
-        artworkImage.path,
+        clothesImage.path,
         filename: imageName,
         contentType: MediaType("image", imageExtension), //important
       );
@@ -175,7 +175,7 @@ class ImageRemoteDataSource extends BaseImageRemoteDataSource {
       Dio dio = Dio();
       var response;
 
-      if (clothes.artistNationality=='all'){
+      if (clothes.ClothesGender=='all'){
         FormData formData = FormData.fromMap({
           "image": imageFile,
           "email": clothes.uploaderEmail,
@@ -190,7 +190,7 @@ class ImageRemoteDataSource extends BaseImageRemoteDataSource {
         FormData formData = FormData.fromMap({
           "image": imageFile,
           "email": clothes.uploaderEmail,
-          "artistNationality": clothes.artistNationality
+          "gender": clothes.ClothesGender
         });
         response = await dio.post(
             "${ServerManager.artworksBaseUrl}/get-artworks-by-artist-nationality",
