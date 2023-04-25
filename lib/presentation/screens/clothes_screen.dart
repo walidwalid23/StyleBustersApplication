@@ -90,7 +90,7 @@ class _ClothesScreenState extends State<ClothesScreen> {
           else{
             key.currentState!.showBottomSheet((context) => Container(
               width: double.infinity,
-              height: 500.0,
+              height: 465.0,
               color: Colors.grey[100],
               child: Form(
                 key: Formkey,
@@ -141,16 +141,27 @@ class _ClothesScreenState extends State<ClothesScreen> {
                             items:[
                               DropdownMenuItem<String>(
                               value: "select",
-                              child: Text("Select Artist Nationality",
+                              child: Text("Select Clothes' Gender",
                                   style: TextStyle(color: Colors.grey)),
                               enabled: false,
                               ),
                               DropdownMenuItem<String>(
                                 value: "all",
-                                child: Text("All Artists",
+                                child: Text("All Genders",
                                     style: TextStyle(color: Colors.black)),
                               ),
-                             ],
+                              DropdownMenuItem<String>(
+                                value: "Male",
+                                child: Text("Male",
+                                    style: TextStyle(color: Colors.black)),
+                              ),
+                              DropdownMenuItem<String>(
+                                value: "Female",
+                                child: Text("Female",
+                                    style: TextStyle(color: Colors.black)),
+                              ),
+
+                            ],
                             onChanged: (value) {
                             setState(() {
                               dropdownValue = value!;
@@ -167,10 +178,12 @@ class _ClothesScreenState extends State<ClothesScreen> {
                                 fillColor: Colors.white,
                                 enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(color: Colors.black),
-                                    borderRadius: BorderRadius.circular(10)),
+                                    borderRadius: BorderRadius.circular(10)
+                                ),
                                 focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(color: Colors.black),
-                                    borderRadius: BorderRadius.circular(10))
+                                    borderRadius: BorderRadius.circular(10)
+                                ),
                             ),
                           ),
                       SizedBox(
