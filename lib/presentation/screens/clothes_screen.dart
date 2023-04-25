@@ -16,30 +16,23 @@ class ClothesScreen extends StatefulWidget {
 
 class _ClothesScreenState extends State<ClothesScreen> {
    var key =GlobalKey<ScaffoldState>();
-
    final ImagePicker pickimage = ImagePicker();
-
    File? uploadimage;
-
    File? logoimage;
-
    var Formkey = GlobalKey<FormState>();
-
    var emailController = TextEditingController();
-
    bool isBottomSheetShown = false;
-
+   String dropdownValue = "select";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: key,
       appBar: AppBar(
-        title: Center(
-          child: Text(
-              "Clothes"
+        title: Text(
+              "Find Similar Clothes",
           ),
+        centerTitle: true,
         ),
-      ),
       body: Column(
         children: [
           // Center(
@@ -78,7 +71,7 @@ class _ClothesScreenState extends State<ClothesScreen> {
               height: 500,
               child: (logoimage==null)?Center(
                 child: Text(
-                  "Upload Image to Show Similar Logos",
+                  "Upload Image to Show Similar Clothes",
                   style: TextStyle(
                     fontSize: 23.0,
                   ),
@@ -97,7 +90,7 @@ class _ClothesScreenState extends State<ClothesScreen> {
           else{
             key.currentState!.showBottomSheet((context) => Container(
               width: double.infinity,
-              height: 300.0,
+              height: 500.0,
               color: Colors.grey[100],
               child: Form(
                 key: Formkey,
@@ -142,6 +135,46 @@ class _ClothesScreenState extends State<ClothesScreen> {
                       ),
                       SizedBox(
                         height: 10.0,
+                      ),
+                       DropdownButtonFormField(
+                            value: dropdownValue,
+                            items:[
+                              DropdownMenuItem<String>(
+                              value: "select",
+                              child: Text("Select Artist Nationality",
+                                  style: TextStyle(color: Colors.grey)),
+                              enabled: false,
+                              ),
+                              DropdownMenuItem<String>(
+                                value: "all",
+                                child: Text("All Artists",
+                                    style: TextStyle(color: Colors.black)),
+                              ),
+                             ],
+                            onChanged: (value) {
+                            setState(() {
+                              dropdownValue = value!;
+                            });
+                            },
+                            validator: (value) {
+                              if (value == null || value == 'select') {
+                                return 'Please Select A Country';
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.white,
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.black),
+                                    borderRadius: BorderRadius.circular(10)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.black),
+                                    borderRadius: BorderRadius.circular(10))
+                            ),
+                          ),
+                      SizedBox(
+                        height: 10,
                       ),
                       ElevatedButton(
                         onPressed: (){},

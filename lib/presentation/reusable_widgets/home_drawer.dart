@@ -59,7 +59,7 @@ class HomeDrawer extends ConsumerWidget {
                 context.push('/logos');
               },
             ),
-           /* ListTile(
+            ListTile(
               leading: const FaIcon(
                 FontAwesomeIcons.shirt,
                 color: Colors.deepOrange,
@@ -86,7 +86,6 @@ class HomeDrawer extends ConsumerWidget {
                 context.push('/aboutus');
               },
             )
-*/
           ],
         ),
       );

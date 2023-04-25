@@ -7,8 +7,8 @@ class ShowImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 50,
-      height: 50,
+      width: 150,
+      height: 150,
       child: (image==null)?Image.asset('assets/images/blankimage.png') :Image.file(image!),
     );
   }
