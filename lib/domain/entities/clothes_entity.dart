@@ -1,7 +1,16 @@
-class Clothes{
-  String uploaderEmail;
+class UploadedClothes{
   dynamic clothesImage;
-  String ClothesGender;
+  String gender;
 
-  Clothes({required this.uploaderEmail, required this.clothesImage, required this.ClothesGender});
+  UploadedClothes({required this.clothesImage, required this.gender});
+}
+
+class RetrievedClothes{
+  String imageURL;
+  String productName;
+  String productPrice;
+  String productURL;
+
+  RetrievedClothes({required this.imageURL, required this.productName, required this.productPrice,
+    required this.productURL});
 }

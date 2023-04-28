@@ -5,5 +5,5 @@ import 'package:stylebusters/domain/entities/artwork_entity.dart';
 abstract class BaseImageRemoteDataSource {
   Future<String> getSimilarLogos(Logo logo);
   Future<String> getSimilarStyleArtworks(Artwork artwork);
-  Future<String> getSimilarClothes(Clothes artwork);
+  Future<List<RetrievedClothes>> getSimilarStyleClothes(UploadedClothes clothes, int pageNumber);
 }

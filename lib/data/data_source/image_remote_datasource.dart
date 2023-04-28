@@ -159,12 +159,15 @@ class ImageRemoteDataSource extends BaseImageRemoteDataSource {
   }
 
   @override
-  Future<String> getSimilarClothes(Clothes clothes) async {
+  Future<List<RetrievedClothes>> getSimilarStyleClothes(UploadedClothes clothes, int pageNumber) async{
     // send a post request to the server
     try {
       File clothesImage = clothes.clothesImage;
       String imageName = clothesImage.path.split('/').last;
       String imageExtension = path.extension(clothesImage.path).split('.').last;
+      String gender = clothes.gender;
+
+
 
       final imageFile = await MultipartFile.fromFile(
         clothesImage.path,
@@ -175,34 +178,27 @@ class ImageRemoteDataSource extends BaseImageRemoteDataSource {
       Dio dio = Dio();
       var response;
 
-      if (clothes.ClothesGender=='all'){
         FormData formData = FormData.fromMap({
           "image": imageFile,
-          "email": clothes.uploaderEmail,
-        });
-
-        response = await dio.post(
-            "${ServerManager.artworksBaseUrl}/get-all-artworks",
-            data: formData);
-      }
-      else{
-
-        FormData formData = FormData.fromMap({
-          "image": imageFile,
-          "email": clothes.uploaderEmail,
-          "gender": clothes.ClothesGender
+          "gender": gender,
+          "page": pageNumber
         });
         response = await dio.post(
-            "${ServerManager.artworksBaseUrl}/get-artworks-by-artist-nationality",
+            "${ServerManager.clothesBaseUrl}/get-similar-clothes",
             data: formData);
-      }
-
 
       print(response.data);
+
 
       int statusCode = response.statusCode!;
 
       if (statusCode == 200) {
+        // return the retrieved clothes on success
+        List jsonClothes = response.data['posts'];
+        List<RetrievedClothes> retrievedClothes = jsonClothes.map((clothesMap) => RetrievedClothes(
+            imageURL: clothesMap["imageURL"], productName: clothesMap["productName"],
+            productPrice:clothesMap["productPrice"] , productURL: clothesMap["productURL"])).toList();
+        return retrievedClothes;
         return response.data['successMessage'];
       }
       // since the server didn't return 200 then there must have been a problem
@@ -239,4 +235,6 @@ class ImageRemoteDataSource extends BaseImageRemoteDataSource {
       throw GenericException(errorMessage: "Unknown Exception Has Occurred");
     }
   }
+
+
 }
