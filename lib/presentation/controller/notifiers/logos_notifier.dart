@@ -28,7 +28,7 @@ class GetSimilarLogosStateNotifier extends StateNotifier <AsyncValue<dynamic>>{
     data.fold((Failure failure) {
       super.state = AsyncError(failure.errorMessage, failure.stackTrace);
     } , (Success success) {
-      //we don't need to change the state when succeed cause we will display toast
+      //we don't need to change the state when succeed cause we will display snackbar
       // but we set it to null to stop loading in case the user went to previous screen
       super.state = AsyncData(null);
 

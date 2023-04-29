@@ -194,12 +194,12 @@ class ImageRemoteDataSource extends BaseImageRemoteDataSource {
 
       if (statusCode == 200) {
         // return the retrieved clothes on success
-        List jsonClothes = response.data['posts'];
+        List jsonClothes = response.data['results'];
         List<RetrievedClothes> retrievedClothes = jsonClothes.map((clothesMap) => RetrievedClothes(
             imageURL: clothesMap["imageURL"], productName: clothesMap["productName"],
             productPrice:clothesMap["productPrice"] , productURL: clothesMap["productURL"])).toList();
         return retrievedClothes;
-        return response.data['successMessage'];
+
       }
       // since the server didn't return 200 then there must have been a problem
       else {
