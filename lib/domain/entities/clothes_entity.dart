@@ -14,3 +14,26 @@ class RetrievedClothes{
   RetrievedClothes({required this.imageURL, required this.productName, required this.productPrice,
     required this.productURL});
 }
+
+class ClothesPagination {
+  List<RetrievedClothes> retrievedClothes;
+  bool fetchingLoading;
+
+  ClothesPagination({required this.retrievedClothes,
+    required this.fetchingLoading, });
+
+  ClothesPagination copyWith({List<RetrievedClothes>? newClothes,  bool? newFetchingLoading}){
+    //IF THE USER UPDATED VALUES OF ATTRIBUTES PUT THEM. IF HE LEFT THEM NULL PUT THE EXISTING VALUES
+    return ClothesPagination(retrievedClothes: newClothes?? retrievedClothes,
+
+        fetchingLoading: newFetchingLoading ?? fetchingLoading,
+);
+
+
+  }
+
+
+}
+
+
+

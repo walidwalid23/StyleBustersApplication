@@ -55,6 +55,7 @@ dependencies:
   country_state_city: ^0.1.6
   flutter_native_splash: ^2.2.18
   cached_network_image: ^3.2.3
+  url_launcher: ^6.1.10
 
 
 

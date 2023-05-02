@@ -16,7 +16,7 @@ import '../../../domain/usecases/get_similar_clothes_usecase.dart';
 
 class GetSimilarStyleClothesStateNotifier extends StateNotifier <AsyncValue<dynamic>>{
   // the initial state will be null cause nothing should be shown till the sign up button is clicked
-  GetSimilarStyleClothesStateNotifier(): super( AsyncData(null) );
+  GetSimilarStyleClothesStateNotifier(initialState): super( initialState );
 
   void getSimilarClothesState(UploadedClothes clothes,int pageNumber ,BuildContext context) async{
 
@@ -24,18 +24,40 @@ class GetSimilarStyleClothesStateNotifier extends StateNotifier <AsyncValue<dyna
     BaseImageRepository imageRepository  = ImageRepository(imageRemoteDataSource);
     GetSimilarStyleClothes getSimilarStyleClothesUseCase = GetSimilarStyleClothes(imageRepository:imageRepository);
 
-    super.state = AsyncLoading();
+
+    if (pageNumber == 1){ super.state = AsyncLoading();}
+    else{
+      // since this isn't the first page therefore the state already has a list of clothes
+      state = AsyncData(state.value!.copyWith(newFetchingLoading:true));
+    }
+
     Either<Failure, List<RetrievedClothes>> data = await getSimilarStyleClothesUseCase.excute(clothes,pageNumber);
     // USE .FOLD METHOD IN THE SCREENS LAYER TO DEAL WITH THE EITHER DATA
     data.fold((Failure failure) {
       super.state = AsyncError(failure.errorMessage, failure.stackTrace);
     } , (List<RetrievedClothes> retrievedClothes) {
-      print("data received");
-      print(retrievedClothes);
-      super.state = AsyncData(retrievedClothes);
 
-      // close the bottomsheet
-      Navigator.pop(context);
+      if (state is AsyncLoading) {
+        // initialize the state object again since it may have AsyncLoading state not the object
+        super.state = AsyncData(ClothesPagination(fetchingLoading: false,
+            retrievedClothes: retrievedClothes));
+        // close the bottomsheet only here since this is the first page loaded from the floating action button
+        // but the next data will be loaded from the main clothes screen so you shouldn't pop that screen
+        Navigator.pop(context);
+      }
+      else {
+        print("data received");
+        print(retrievedClothes);
+        //SET THE FETCHLOADING TO FALSE SINCE DATA HAS FINISHED FETCHING
+        print(state);
+        state.value!.fetchingLoading = false;
+        //add old posts + new posts
+        state.value!.retrievedClothes.addAll(retrievedClothes);
+        super.state = AsyncData(state.value!.copyWith(
+            newClothes: state.value!.retrievedClothes
+            , newFetchingLoading: state.value!.fetchingLoading));
+      }
+
 
 
 
