@@ -1,6 +1,6 @@
 # stylebusters
 
-A new Flutter project.
+StyleBusters Mobile Application.
 
 ## Getting Started
 
