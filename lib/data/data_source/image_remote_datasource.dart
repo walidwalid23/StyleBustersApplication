@@ -208,9 +208,12 @@ class ImageRemoteDataSource extends BaseImageRemoteDataSource {
                   productURL: clothesMap["productURL"])).toList();
           return Left(retrievedClothes);
         }
-        else{
+        else if (response.data['classes']!=null){
           List<String> classes = (response.data['classes'] as List).map((item) => item as String).toList();
           return Right(classes);
+        }
+        else {
+          throw  response.data['errorMessage'];
         }
       }
       // since the server didn't return 200 then there must have been a problem
@@ -240,11 +243,11 @@ class ImageRemoteDataSource extends BaseImageRemoteDataSource {
         // OR CREATE A GENERIC ERROR MESSAGE
         throw GenericException(errorMessage: "Unknown Exception Has Occurred");
       }
-    } catch (error, st) {
-      print(error);
-      print(st);
+    } catch (err, st) {
+        print(err);
+        print(st);
       // CATCH ANY OTHER LEFT EXCEPTION
-      throw GenericException(errorMessage: "Unknown Exception Has Occurred");
+      throw GenericException(errorMessage:err.toString() );
     }
   }
 

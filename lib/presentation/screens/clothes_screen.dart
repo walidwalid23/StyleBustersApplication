@@ -175,7 +175,7 @@ class _ClothesScreenState extends ConsumerState<ClothesScreen> {
                  ),
                  SizedBox(height:10),
                  Center(child:Text(
-                   "Found ${clothesPaginationOrClasses.length} Clothes Obejects \n"
+                   "Found ${clothesPaginationOrClasses.length} Clothes Objects \n"
                        "Select One Of Them:",style: TextStyle(fontWeight:FontWeight.bold,
                      fontSize: 20),))
                  ,
@@ -213,10 +213,15 @@ class _ClothesScreenState extends ConsumerState<ClothesScreen> {
 
 
             }},
-          error: (error, st) => Text(
-            error.toString(),
-            style: TextStyle(
-                color: Colors.red, fontWeight: FontWeight.bold),
+          error: (error, st) => Center(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Text(
+                error.toString(),
+                style: TextStyle(
+                    color: Colors.red, fontWeight: FontWeight.bold, fontSize:20),
+              ),
+            ),
           ),
           loading: () =>
               SpinKitRing(color: ColorsManager.themeColor1!))
@@ -327,11 +332,12 @@ class _ClothesScreenState extends ConsumerState<ClothesScreen> {
                         ),
                         ref.watch(getSimilarStyleClothesProvider).when(
                               data: (data) => Container(),
-                              error: (error, st) => Text(
-                                  error.toString(),
-                                  style: TextStyle(
-                                      color: Colors.red, fontWeight: FontWeight.bold),
-                              ),
+                              error: (error, st) =>  Text(
+                                    error.toString(),
+                                    style: TextStyle(
+                                        color: Colors.red, fontWeight: FontWeight.bold),
+                                ),
+
                               loading: () {
 
                                     return SpinKitRing(color: ColorsManager.themeColor1!);}

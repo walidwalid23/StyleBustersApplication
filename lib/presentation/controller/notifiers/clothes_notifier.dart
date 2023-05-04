@@ -30,6 +30,7 @@ class GetSimilarStyleClothesStateNotifier extends StateNotifier <AsyncValue<dyna
     // USE .FOLD METHOD IN THE SCREENS LAYER TO DEAL WITH THE EITHER DATA
     data.fold((Failure failure) {
       super.state = AsyncError(failure.errorMessage, failure.stackTrace);
+      Navigator.pop(context);
     } , (Either<List<RetrievedClothes>,List<String>> clothesOrClasses) {
         clothesOrClasses.fold((List<RetrievedClothes> retrievedClothes) {
           if (state is AsyncLoading) {
