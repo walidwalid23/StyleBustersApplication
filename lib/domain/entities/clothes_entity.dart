@@ -1,8 +1,10 @@
 class UploadedClothes{
   dynamic clothesImage;
   String gender;
+  // class name in case of multiple objects in the uploaded image
+  String? className;
 
-  UploadedClothes({required this.clothesImage, required this.gender});
+  UploadedClothes({required this.clothesImage, required this.gender, this.className});
 }
 
 class RetrievedClothes{

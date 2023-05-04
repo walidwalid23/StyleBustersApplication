@@ -43,8 +43,9 @@ class _ClothesScreenState extends ConsumerState<ClothesScreen> {
         centerTitle: true,
         ),
       body: ref.watch(getSimilarStyleClothesProvider).when(
-          data: (clothesPagination) {
-            return (clothesPagination.retrievedClothes.length==0)?Center(child:Text(
+          data: (clothesPaginationOrClasses) {
+            if(clothesPaginationOrClasses is ClothesPagination){
+            return (clothesPaginationOrClasses.retrievedClothes.length==0)?Center(child:Text(
               "Start Uploading Clothes",style: TextStyle(fontWeight:FontWeight.bold,
           fontSize: 25),)):SingleChildScrollView(
             child: Column(
@@ -58,12 +59,12 @@ class _ClothesScreenState extends ConsumerState<ClothesScreen> {
                     mainAxisSpacing: 12.0,
                     mainAxisExtent: 310,
                   ),
-                  itemCount:clothesPagination.retrievedClothes.length,
+                  itemCount:clothesPaginationOrClasses.retrievedClothes.length,
                   itemBuilder: (_, index) {
                     return GestureDetector(
                       onTap: ()async{
                         try {
-                          String url = clothesPagination.retrievedClothes[index].productURL;
+                          String url = clothesPaginationOrClasses.retrievedClothes[index].productURL;
                           print(url);
                           await launchUrl(Uri.parse(url));
 
@@ -96,7 +97,7 @@ class _ClothesScreenState extends ConsumerState<ClothesScreen> {
                                 height: 200,
                                 width: double.infinity,
                                 fit: BoxFit.cover,
-                                imageUrl: clothesPagination.retrievedClothes[index].imageURL,
+                                imageUrl: clothesPaginationOrClasses.retrievedClothes[index].imageURL,
                               ),
                             ),
                             Column(
@@ -105,7 +106,7 @@ class _ClothesScreenState extends ConsumerState<ClothesScreen> {
                                     Padding(
                                       padding:EdgeInsets.all(6),
                                       child: Text(
-                                        clothesPagination.retrievedClothes[index].productName,
+                                        clothesPaginationOrClasses.retrievedClothes[index].productName,
                                         style: Theme.of(context).textTheme.titleSmall!.merge(
                                           const TextStyle(
                                             fontWeight: FontWeight.w700,
@@ -119,7 +120,7 @@ class _ClothesScreenState extends ConsumerState<ClothesScreen> {
                                     ),
                                     Center(
                                       child: Text(
-                                        clothesPagination.retrievedClothes[index].productPrice,
+                                        clothesPaginationOrClasses.retrievedClothes[index].productPrice,
                                         style: Theme.of(context).textTheme.titleMedium!.merge(
                                           TextStyle(
                                             fontWeight: FontWeight.bold,
@@ -158,7 +159,60 @@ class _ClothesScreenState extends ConsumerState<ClothesScreen> {
                 ),
               ],
             ),
-          );},
+          );}
+            else{
+              // Received Classes
+             return  Column(
+
+               children: [
+
+                 Center(
+                   child: ImageContainer(
+                       uploadedImage: clothesImage,
+                       width: 400,
+                       height: 400,
+                     ),
+                 ),
+                 SizedBox(height:10),
+                 Center(child:Text(
+                   "Found ${clothesPaginationOrClasses.length} Clothes Obejects \n"
+                       "Select One Of Them:",style: TextStyle(fontWeight:FontWeight.bold,
+                     fontSize: 20),))
+                 ,
+                 SingleChildScrollView(child: Column(
+                    children: clothesPaginationOrClasses.map<Widget>((String className){
+                      return Center(
+                        child: ElevatedButton(
+                          child: Text(
+                              className
+                          ),
+                          onPressed: () {
+                            uploadedClothes = UploadedClothes(
+                                clothesImage: clothesImage,
+                                gender: gender,
+                              className: className
+                            );
+                            // Reset The Page Number In Case There Were Previous Increments
+                            pageNumber=1;
+                            // upload updated object with the class name
+                            ref.read(getSimilarStyleClothesProvider.notifier).getSimilarClothesState(uploadedClothes,pageNumber,context);
+
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: ColorsManager.themeColor1,
+                            shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(15.0),
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),),
+               ],
+             );
+
+
+            }},
           error: (error, st) => Text(
             error.toString(),
             style: TextStyle(
@@ -167,8 +221,6 @@ class _ClothesScreenState extends ConsumerState<ClothesScreen> {
           loading: () =>
               SpinKitRing(color: ColorsManager.themeColor1!))
       ,
-
-
           floatingActionButton: FloatingActionButton(
                 onPressed: (){
                     showModalBottomSheet(
@@ -254,7 +306,7 @@ class _ClothesScreenState extends ConsumerState<ClothesScreen> {
                                    clothesImage: clothesImage,
                                       gender: gender
                                     );
-                                    // upload the post
+                                    // upload data
                                     ref.read(getSimilarStyleClothesProvider.notifier).getSimilarClothesState(uploadedClothes,pageNumber,context);
                                     // reubuild the bottom sheet manually to be able to watch the provider
                                     setState((){});

@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:stylebusters/domain/entities/artwork_entity.dart';
 import 'package:stylebusters/domain/entities/clothes_entity.dart';
 
@@ -159,13 +160,14 @@ class ImageRemoteDataSource extends BaseImageRemoteDataSource {
   }
 
   @override
-  Future<List<RetrievedClothes>> getSimilarStyleClothes(UploadedClothes clothes, int pageNumber) async{
+  Future<Either<List<RetrievedClothes>,List<String>>> getSimilarStyleClothes(UploadedClothes clothes, int pageNumber) async{
     // send a post request to the server
     try {
       File clothesImage = clothes.clothesImage;
       String imageName = clothesImage.path.split('/').last;
       String imageExtension = path.extension(clothesImage.path).split('.').last;
       String gender = clothes.gender;
+      String? className = clothes.className;
 
 
 
@@ -181,7 +183,8 @@ class ImageRemoteDataSource extends BaseImageRemoteDataSource {
         FormData formData = FormData.fromMap({
           "image": imageFile,
           "gender": gender,
-          "page": pageNumber
+          "page": pageNumber,
+          "className":className
         });
         response = await dio.post(
             "${ServerManager.clothesBaseUrl}/get-similar-clothes",
@@ -194,12 +197,21 @@ class ImageRemoteDataSource extends BaseImageRemoteDataSource {
 
       if (statusCode == 200) {
         // return the retrieved clothes on success
-        List jsonClothes = response.data['results'];
-        List<RetrievedClothes> retrievedClothes = jsonClothes.map((clothesMap) => RetrievedClothes(
-            imageURL: clothesMap["imageURL"], productName: clothesMap["productName"],
-            productPrice:clothesMap["productPrice"] , productURL: clothesMap["productURL"])).toList();
-        return retrievedClothes;
-
+        if (response.data['results']!=null) {
+          List jsonClothes = response.data['results'];
+          List<RetrievedClothes> retrievedClothes = jsonClothes.map((
+              clothesMap) =>
+              RetrievedClothes(
+                  imageURL: clothesMap["imageURL"],
+                  productName: clothesMap["productName"],
+                  productPrice: clothesMap["productPrice"],
+                  productURL: clothesMap["productURL"])).toList();
+          return Left(retrievedClothes);
+        }
+        else{
+          List<String> classes = (response.data['classes'] as List).map((item) => item as String).toList();
+          return Right(classes);
+        }
       }
       // since the server didn't return 200 then there must have been a problem
       else {

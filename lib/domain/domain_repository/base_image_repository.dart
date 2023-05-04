@@ -9,6 +9,6 @@ abstract class BaseImageRepository {
 
   Future<Either<Failure, Success>> getSimilarLogos(Logo logo);
   Future<Either<Failure, Success>> getSimilarStyleArtworks(Artwork artwork);
-  Future<Either<Failure, List<RetrievedClothes>>> getSimilarStyleClothes(UploadedClothes clothes, int pageNumber);
+  Future<Either<Failure, Either<List<RetrievedClothes>,List<String>>>> getSimilarStyleClothes(UploadedClothes clothes, int pageNumber);
 
 }

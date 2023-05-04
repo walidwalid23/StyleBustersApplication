@@ -7,7 +7,7 @@ class GetSimilarStyleClothes{
   BaseImageRepository imageRepository;
   GetSimilarStyleClothes({required this.imageRepository});
 
-  Future<Either<Failure, List<RetrievedClothes>>> excute(UploadedClothes clothes, int pageNumber) async {
+  Future<Either<Failure, Either<List<RetrievedClothes>,List<String>>>> excute(UploadedClothes clothes, int pageNumber) async {
     return await imageRepository.getSimilarStyleClothes(clothes, pageNumber);
 
   }

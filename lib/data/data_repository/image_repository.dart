@@ -53,11 +53,11 @@ class ImageRepository extends BaseImageRepository {
           
   }
   @override
-  Future<Either<Failure, List<RetrievedClothes>>> getSimilarStyleClothes(UploadedClothes clothes, int pageNumber) async {
+  Future<Either<Failure, Either<List<RetrievedClothes>,List<String>>>> getSimilarStyleClothes(UploadedClothes clothes, int pageNumber) async {
     try {
-      List<RetrievedClothes> retrievedClothes = await imageRemoteDataSource.getSimilarStyleClothes(clothes, pageNumber);
+      Either<List<RetrievedClothes>,List<String>> clothesOrClasses = await imageRemoteDataSource.getSimilarStyleClothes(clothes, pageNumber);
       //if no exception was thrown then the method has succeeded
-      return Right(retrievedClothes);
+      return Right(clothesOrClasses);
     } on ConnectionException catch (exception, stackTrace) {
       return Left(ConnectionFailure(
           errorMessage: exception.errorMessage, stackTrace: stackTrace));
