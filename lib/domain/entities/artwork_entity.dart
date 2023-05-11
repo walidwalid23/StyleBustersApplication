@@ -1,7 +1,10 @@
 class Artwork{
   String uploaderEmail;
   dynamic artworkImage;
-  String artistNationality;
+  String? artistNationality;
+  String? material;
+  String? timePeriod;
 
-  Artwork({required this.uploaderEmail, required this.artworkImage, required this.artistNationality});
+  Artwork({required this.uploaderEmail, required this.artworkImage, this.artistNationality, this.material,
+  this.timePeriod});
 }

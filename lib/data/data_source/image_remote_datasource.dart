@@ -109,10 +109,12 @@ class ImageRemoteDataSource extends BaseImageRemoteDataSource {
         FormData formData = FormData.fromMap({
           "image": imageFile,
           "email": artwork.uploaderEmail,
-          "artistNationality": artwork.artistNationality
+          "artistNationality": artwork.artistNationality,
+          "material": artwork.material,
+          "timePeriod": artwork.timePeriod
         });
         response = await dio.post(
-            "${ServerManager.artworksBaseUrl}/get-artworks-by-artist-nationality",
+            "${ServerManager.artworksBaseUrl}/get-artworks",
             data: formData);
       }
 

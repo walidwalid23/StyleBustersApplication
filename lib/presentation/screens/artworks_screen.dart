@@ -27,7 +27,11 @@ class _ArtworksScreenState extends ConsumerState<ArtworksScreen> {
   File? artworkImage;
   String imageValidationError = '';
   TextEditingController emailController = TextEditingController();
-  String dropdownValue = "select";
+  String artistNationalityDropdownValue = "select";
+  String materialDropdownValue = "select";
+  String timePeriodDropdownValue = "select";
+  int dropDownChoicesCounter = 0;
+
   List<String> artistsNationalities=['American', 'Angolan', 'Argentine', 'Armenian', 'Australian'
     , 'Austrian', 'Belarusian', 'Belgian', 'Beninese', 'Brazilian', 'British', 'Bulgarian', 'Burmese',
     'Cameroonian', 'Canadian', 'Catalan', 'Chilean', 'Chinese', 'Chinese-American', 'Colombian',
@@ -41,10 +45,25 @@ class _ArtworksScreenState extends ConsumerState<ArtworksScreen> {
     'Slovene', 'South African', 'South Korean', 'Spanish', 'Sudanese', 'Swedish', 'Swiss', 'Syrian', 'Taiwanese', 'Thai',
     'Turkish', 'Ugandan', 'Ukrainian', 'Uruguayan', 'Venezuelan', 'Vietnamese', 'Welsh', 'Zimbabwean', 'Other'];
 
+  List<String> materials = ['acrylic', 'aluminum', 'aquatint', 'Arches paper', 'art paper', 'blown glass'
+    , 'brass', 'bronze', 'c-print', 'canvas', 'cardboard', 'ceramic', 'chalk', 'charcoal', 'clay', 'collage', 'concrete'
+    , 'copper', 'cotton', 'crystal', 'digital', 'drypoint', 'dye', 'earthenware', 'embroidery', 'enamel',
+    'engraving', 'epoxy', 'etching', 'foam', 'giclée', 'glass', 'glaze', 'gold', 'gouache', 'graphite', 'ink', 'inkjet print',
+    'iron', 'lacquer', 'laid paper', 'leaf', 'leather', 'linen', 'linocut', 'lithograph', 'mahogany', 'marble',
+    'metal', 'mixed media', 'monoprint', 'monotype', 'oak', 'oil', 'paint', 'panel', 'paper', 'pastel', 'patina',
+    'pencil', 'pigment', 'plaster', 'plastic', 'platinum', 'plexiglass', 'polaroid', 'polyurethane', 'porcelain',
+    'powder', 'rag paper', 'resin', 'screen print', 'silk', 'silver', 'silver gelatin', 'sound', 'spray paint',
+    'stainless steel', 'steel', 'stone', 'stoneware', 'teak', 'thread', 'upholstery', 'video', 'vinyl',
+    'walnut', 'wash', 'watercolor', 'wire', 'wood', 'woodcut', 'wool', 'wove paper',];
+
+  List<String> timePeriods = ['Mid%2019th Century', 'Late%2019th Century', 'Early%2019th Century', '2020', '2010', '2000',
+    '1990','1980', '1970', '1960','1950', '1940', '1930','1920', '1910', '1900','18th Century & Earlier' ];
+
+
 
   @override
   Widget build(BuildContext context) {
-
+    print(materials.length);
     return Scaffold(
       appBar: AppBar(
         title: Text('Find Similar Style Artworks'),
@@ -81,9 +100,9 @@ class _ArtworksScreenState extends ConsumerState<ArtworksScreen> {
                   textFieldController: emailController ,
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(15),
+                  padding: const EdgeInsets.all(10),
                   child: DropdownButtonFormField(
-                            value: dropdownValue,
+                            value: artistNationalityDropdownValue,
                             items:[DropdownMenuItem<String>(
                               value: "select",
                               child: Text("Select Artist Nationality",
@@ -105,13 +124,16 @@ class _ArtworksScreenState extends ConsumerState<ArtworksScreen> {
                                 )).toList()
                             ,onChanged: (value) {
                             setState(() {
-                              dropdownValue = value!;
+                              artistNationalityDropdownValue = value!;
+                              if(value!='select'){
+                                dropDownChoicesCounter+=1;
+                              }
                             });
                           },
 
                             validator: (value) {
-                              if (value == null || value == 'select') {
-                                return 'Please Select A Country';
+                              if ((value == null || value == 'select') && dropDownChoicesCounter==0) {
+                                return 'Please Select One Choice';
                               }
                               return null;
                             },
@@ -126,6 +148,94 @@ class _ArtworksScreenState extends ConsumerState<ArtworksScreen> {
                                     borderRadius: BorderRadius.circular(10))
                             ),
                           )
+                ),
+                Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: DropdownButtonFormField(
+                      value: materialDropdownValue,
+                      items:[DropdownMenuItem<String>(
+                        value: "select",
+                        child: Text("Select Material",
+                            style: TextStyle(color: Colors.grey)),
+                        enabled: false,
+                      )
+                      ]+materials.map((material) =>
+                          DropdownMenuItem<String>(
+                            value: material ,
+                            child: Text(material,
+                                style: TextStyle(color: Colors.black)),
+
+                          )).toList()
+                      ,onChanged: (value) {
+                      setState(() {
+                        materialDropdownValue = value!;
+                        if(value!='select'){
+                          dropDownChoicesCounter+=1;
+                        }
+                      });
+                    },
+
+                      validator: (value) {
+                        if ((value == null || value == 'select') && dropDownChoicesCounter==0) {
+                          return 'Please Select One Choice';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                              borderRadius: BorderRadius.circular(10)),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                              borderRadius: BorderRadius.circular(10))
+                      ),
+                    )
+                ),
+                Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: DropdownButtonFormField(
+                      value: timePeriodDropdownValue,
+                      items:[DropdownMenuItem<String>(
+                        value: "select",
+                        child: Text("Select Time Period",
+                            style: TextStyle(color: Colors.grey)),
+                        enabled: false,
+                      )
+                      ]+timePeriods.map((timePeriod) =>
+                          DropdownMenuItem<String>(
+                            value: timePeriod ,
+                            child: Text(timePeriod.replaceAll('%',' '),
+                                style: TextStyle(color: Colors.black)),
+
+                          )).toList()
+                      ,onChanged: (value) {
+                      setState(() {
+                        timePeriodDropdownValue = value!;
+                        if(value!='select'){
+                          dropDownChoicesCounter+=1;
+                        }
+                      });
+                    },
+
+                      validator: (value) {
+                        if ((value == null || value == 'select') && dropDownChoicesCounter==0) {
+                          return 'Please Select One Choice';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                              borderRadius: BorderRadius.circular(10)),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                              borderRadius: BorderRadius.circular(10))
+                      ),
+                    )
                 )
                 ,ImageContainer(
                   uploadedImage: artworkImage,
@@ -168,7 +278,9 @@ class _ArtworksScreenState extends ConsumerState<ArtworksScreen> {
                         Artwork artwork = Artwork(
                             uploaderEmail: emailController.text,
                             artworkImage: artworkImage!,
-                            artistNationality: dropdownValue
+                            artistNationality: (artistNationalityDropdownValue=='select')?null:artistNationalityDropdownValue,
+                            material: (materialDropdownValue=='select')?null:materialDropdownValue,
+                            timePeriod: (timePeriodDropdownValue=='select')?null:timePeriodDropdownValue
                         );
                         // upload the post
                         ref.read(getSimilarStyleArtworksProvider.notifier).getSimilarArtworksState(artwork,context);
