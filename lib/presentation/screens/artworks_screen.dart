@@ -243,7 +243,7 @@ class _ArtworksScreenState extends ConsumerState<ArtworksScreen> {
                   height: 200,
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(15),
+                  padding: const EdgeInsets.all(5),
                   child: ElevatedButton(
                     child: const Text('Upload Artwork Image'),
                     onPressed: () async {
@@ -269,7 +269,7 @@ class _ArtworksScreenState extends ConsumerState<ArtworksScreen> {
                   padding: const EdgeInsets.only(left: 80, right: 80),
                   child: ElevatedButton(
                     child: Text(
-                      'Submit',
+                      'Submit For Stealing Check',
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate() &&
@@ -299,6 +299,45 @@ class _ArtworksScreenState extends ConsumerState<ArtworksScreen> {
                     ),
                   ),
                 ),
+              Center(child:Container(color:Colors.white,child: Text("OR",style: TextStyle(fontSize:30,
+              fontWeight: FontWeight.bold),)))
+              ,
+                Padding(
+                  padding: const EdgeInsets.only(left: 80, right: 80),
+                  child: ElevatedButton(
+                    child: Text(
+                      'Submit For Inspiration Check',
+                    ),
+                    onPressed: () {
+                      if (_formKey.currentState!.validate() &&
+                          artworkImage != null) {
+                        // DATA IS VALID
+                        Artwork artwork = Artwork(
+                            uploaderEmail: emailController.text,
+                            artworkImage: artworkImage!,
+                            artistNationality: (artistNationalityDropdownValue=='select')?null:artistNationalityDropdownValue,
+                            material: (materialDropdownValue=='select')?null:materialDropdownValue,
+                            timePeriod: (timePeriodDropdownValue=='select')?null:timePeriodDropdownValue,
+                            forInspiration: true
+                        );
+                        // upload the post
+                        ref.read(getSimilarStyleArtworksProvider.notifier).getSimilarArtworksState(artwork,context);
+                      } else if (artworkImage == null) {
+                        setState(() {
+                          imageValidationError =
+                          'Please Upload Artwork Image';
+                        });
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorsManager.themeColor1,
+                      shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(15.0),
+                      ),
+                    ),
+                  ),
+                )
+                ,
                 ref.watch(getSimilarStyleArtworksProvider).when(
                     data: (data) => Container(),
                     error: (error, st) => Text(

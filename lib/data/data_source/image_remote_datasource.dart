@@ -105,6 +105,13 @@ class ImageRemoteDataSource extends BaseImageRemoteDataSource {
             data: formData);
       }
       else{
+        String endPoint;
+        if(artwork.forInspiration==true){
+          endPoint = '/get-artworks-inspiration';
+        }
+        else{
+          endPoint ='/get-artworks';
+        }
 
         FormData formData = FormData.fromMap({
           "image": imageFile,
@@ -114,7 +121,7 @@ class ImageRemoteDataSource extends BaseImageRemoteDataSource {
           "timePeriod": artwork.timePeriod
         });
         response = await dio.post(
-            "${ServerManager.artworksBaseUrl}/get-artworks",
+            "${ServerManager.artworksBaseUrl}"+endPoint,
             data: formData);
       }
 

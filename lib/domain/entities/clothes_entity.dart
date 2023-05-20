@@ -27,7 +27,6 @@ class ClothesPagination {
   ClothesPagination copyWith({List<RetrievedClothes>? newClothes,  bool? newFetchingLoading}){
     //IF THE USER UPDATED VALUES OF ATTRIBUTES PUT THEM. IF HE LEFT THEM NULL PUT THE EXISTING VALUES
     return ClothesPagination(retrievedClothes: newClothes?? retrievedClothes,
-
         fetchingLoading: newFetchingLoading ?? fetchingLoading,
 );
 
